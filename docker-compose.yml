@@ -11,8 +11,6 @@ services:
       - piwik
     ports:
       - '127.0.0.1:8081:80'
-    environment:
-      - HTTP_HOST
     restart: always
   piwik:
     image: piwik
