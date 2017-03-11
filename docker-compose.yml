@@ -1,0 +1,31 @@
+version: '2'
+
+services:
+  web:
+    image: nginx
+    links:
+      - piwik
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    volumes_from:
+      - piwik
+    ports:
+      - '127.0.0.1:8081:80'
+    environment:
+      - HTTP_HOST
+    restart: always
+  piwik:
+    image: piwik
+    links:
+      - db
+    volumes:
+      - ./data/config:/var/www/html/config
+      - ./cron.txt:/etc/cron.d/piwik
+    restart: always
+  db:
+    image: mariadb
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=
+    restart: always
